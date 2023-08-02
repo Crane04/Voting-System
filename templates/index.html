@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Poll</title>
+    <style>
+        h1, div{
+            text-align: center;
+        }
+        .page2, .page3{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Create a new Poll</h1>
+
+    <div id="create-poll">
+        <form>
+            <div class="pages page1">
+                <label>
+                    Name of Poll:
+                    <input type="text" >
+                </label><br>
+                <label>
+                    Poll starts:
+                    <input type="date" name="">
+                </label><br>
+                <label>
+                    Poll Ends:
+                    <input type="date">
+                </label><br>
+                <label>
+                    Number of Contestants:
+                    <select onchange="alter_contestants_number(this)">
+                        <option value="">----------------</option>
+                        <option value="2">2</option>
+                    </select>
+                </label>
+                <div class="pagination">
+                    <button class="not-submit next">Next</button>
+                </div>
+            </div>
+
+            <div class="pages page2">
+                <div id="add-contestants">
+                    <label>
+                        Contestant 1:
+                        <input type="text">
+                    </label>
+                    <label>
+                        Contestant 2:
+                        <input type="text">
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+        // Define Variables
+        const non_submit_btns = document.querySelectorAll(".not-submit.next")
+        const pages = document.querySelectorAll(".pages")
+        const add_contestants_div = document.querySelector("#add-contestants")
+        let add_c = add_contestants_div.childElementCount
+        
+        // Form Pagination
+        for(let i = 0; i < non_submit_btns.length; i++){
+            non_submit_btns[i].addEventListener("click", function(e){
+                e.preventDefault()
+                pages[i].style.display = "none"
+                pages[i + 1].style.display = "block"
+            })
+        }
+
+        function alter_contestants_number(select){
+            if(parseInt(select.value) === add_c){
+                console.log("Don't add any more Inputs for Contestants");
+            }else if (select.value < add_c){
+                // Keep first "select.value" inputs, delete rest!
+            }else{
+                
+            }
+            console.log(add_contestants_div.childElementCount)
+        }
+    </script>
+</body>
+</html>
