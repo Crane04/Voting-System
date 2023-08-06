@@ -6,86 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Poll</title>
     <style>
-        h1, div{
+        div,h1,h3{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             text-align: center;
         }
-        .page2, .page3{
-            display: none;
+        label{
+            display: block;
         }
     </style>
 </head>
 <body>
     <h1>Create a new Poll</h1>
-
+    <h3>These informations cannot be edited later.</h3>
     <div id="create-poll">
-        <form>
+        <form method="post">
+            {% csrf_token %}
             <div class="pages page1">
                 <label>
                     Name of Poll:
-                    <input type="text" >
+                    <input type="text" name="poll_name" required>
                 </label><br>
                 <label>
                     Poll starts:
-                    <input type="date" name="">
+                    <input type="datetime-local" name="poll_st" id="poll_st" required>
                 </label><br>
                 <label>
                     Poll Ends:
-                    <input type="date">
+                    <input type="datetime-local" name = "poll_end" id="poll_end" required>
                 </label><br>
-                <label>
-                    Number of Contestants:
-                    <select onchange="alter_contestants_number(this)">
-                        <option value="">----------------</option>
-                        <option value="2">2</option>
-                    </select>
-                </label>
-                <div class="pagination">
-                    <button class="not-submit next">Next</button>
-                </div>
             </div>
-
-            <div class="pages page2">
-                <div id="add-contestants">
-                    <label>
-                        Contestant 1:
-                        <input type="text">
-                    </label>
-                    <label>
-                        Contestant 2:
-                        <input type="text">
-                    </label>
-                </div>
-            </div>
+            <small>Check your inputs before you proceed!</small><br>
+            <button>Create Poll</button>
         </form>
     </div>
 
     <script>
 
         // Define Variables
-        const non_submit_btns = document.querySelectorAll(".not-submit.next")
-        const pages = document.querySelectorAll(".pages")
-        const add_contestants_div = document.querySelector("#add-contestants")
-        let add_c = add_contestants_div.childElementCount
-        
-        // Form Pagination
-        for(let i = 0; i < non_submit_btns.length; i++){
-            non_submit_btns[i].addEventListener("click", function(e){
-                e.preventDefault()
-                pages[i].style.display = "none"
-                pages[i + 1].style.display = "block"
-            })
-        }
 
-        function alter_contestants_number(select){
-            if(parseInt(select.value) === add_c){
-                console.log("Don't add any more Inputs for Contestants");
-            }else if (select.value < add_c){
-                // Keep first "select.value" inputs, delete rest!
-            }else{
-                
+        const poll_st = document.querySelector("#poll_st")
+        const poll_end = document.querySelector("#poll_end")
+        const date = new Date()
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, "0")
+        const day = String(date.getDate()).padStart(2, "0")
+        const hour = String(date.getHours()).padStart(2, "0")
+        const minutes = String(date.getMinutes()).padStart(2, "0")
+        const sub_btn = document.querySelector("button")
+
+        poll_st.min = poll_end.min = `${year}-${month}-${day}T${hour}:${minutes}`
+        
+        sub_btn.addEventListener("click", function(e){
+            if(poll_st.value >= poll_end.value){
+                e.preventDefault()
             }
-            console.log(add_contestants_div.childElementCount)
-        }
+        })
     </script>
 </body>
 </html>

@@ -1,0 +1,135 @@
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>    </script>
+    <style>
+        *{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        div, h3{
+            text-align: center;
+        }
+        h3{
+            color: red;
+        }
+        #vote-div{
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="contestants-list" style="display:none ;">
+        {% for contestant in contestants %}
+            <div class="contestant">{{ contestant.name }}</div>
+        {% endfor %}
+    </div>
+
+    <div id="contestants-votes" style="display:none ;">
+        {% for contestant in contestants %}
+            <div class="votes">{{ contestant.votes }}</div>
+        {% endfor %}
+    </div>
+    <div>
+        <h1>{{ poll.title }}</h1>
+        <h4>Created by {{ poll.admin }}</h4>
+    </div>
+    {% if poll.admin == request.user %}
+    <div>
+        <u>Add a Contestant</u>
+        <form method = "post">
+            {% csrf_token %}
+            <label>
+                Name of contestant:
+                <input type="text" name="contestant">
+            </label>
+            <button name="add_contestant">Add</button>
+            <br>
+            You can't delete any contestant after you've added them!
+        </form>
+    </div>
+    {% endif %}
+    <br>
+    <div>
+        <u>Poll informations</u><br>
+
+        <span>
+            Poll Starts: {{poll.time_start}}
+        </span><br>
+        <span>
+            Poll Ends: {{ poll.time_end }}
+        </span>
+        <br>
+
+    </div>
+
+    {% with current_datetime=now|utc %}
+        {% if current_datetime >= poll.time_start and current_datetime <= poll.time_end %}
+
+            <h3>This Poll is on going</h3>
+            <div id="vote-div">
+                {% for contestant in contestants %}
+                    <form name="{{ contestant.name }}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="contestant_id" value="{{ contestant.id }}">
+                        <input type="submit" value="Vote for {{ contestant.name }}">
+                    </form>
+                {% endfor %}
+
+                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+            </div>
+
+        {% else %}
+            <h3>Please check the time frame for this Poll.</h3>
+        {% endif %}
+    {% endwith %}
+
+
+
+
+    <script>
+        var xValues = [];
+        var yValues = [];
+        const contestants = document.querySelectorAll('.contestant');
+        const votes = document.querySelectorAll('.votes');
+        contestants.forEach(contestant => {
+            // Perform actions for each contestant using JavaScript
+            xValues.push(contestant.innerText)
+        });
+        
+        votes.forEach(vote => {
+            // Perform actions for each contestant using JavaScript
+            yValues.push(vote.innerText)
+        });
+        
+barColors = ["blue", "red", "green", "purple", "orange", "black"]
+        new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+    }
+  }
+});
+        </script>
+        
+</body>
+</html>
