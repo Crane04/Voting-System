@@ -10,6 +10,7 @@ class Poll(models.Model):
     title = models.CharField(max_length=100, default="")
     time_start = models.DateTimeField()
     time_end = models.DateTimeField()
+    description = models.TextField()
 
     def __str__(self):
         return str(self.title)

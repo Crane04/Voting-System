@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Polls</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        #container{
+            margin-left: 100px;
+            margin-left: 100px;
+        }
+        #container a h1, span{
+            color: blue;
+            font-size: 25px;
+        }
+        span{
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <section id="header">
+        <header>
+            <!-- Brand Name -->
+            <h1><a href="/">Vote It!</a></h1>
+            
+            <!-- Navigation -->
+            <nav>
+                <ul>
+                    <li><a href="/new" class="current">Home</a></li>
+                    <li><a href="/mypolls">My Polls</a></li>
+                    <li><a href="/followpolls">Follow Polls</a></li>
+                </ul>
+            </nav>
+        </header>
+    </section>
+
+    <section id="container">
+        <h1>My Polls</h1>
+        <section id="polls">
+            <section>
+                <a href="">
+                    <h1>First Poll
+                        <br><span>30 Voters</span>
+                    </h1>
+                    
+                </a>
+            </section>
+            <hr>
+        </section>
+
+        <section id="polls">
+            <section>
+                <a href="">
+                    <h1>First Poll
+                        <br><span>30 Voters</span>
+                    </h1>
+                    
+                </a>
+            </section>
+            <hr>
+        </section>
+    </section>
+</body>
+</html>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,62 +6,73 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Poll</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <style>
-        div,h1,h3{
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            text-align: center;
+        #header{
+            width: 100vw;
+
         }
-        label{
-            display: block;
+        textarea{
+            width: 100%;
+            resize: none;
+
         }
+        #create-box{
+
+            min-height: 100vh;
+            height: max-content;
+            overflow-y:hidden;
+        }
+        textarea{
+            outline: none;
+            padding: 5px;
+            font-size: large;
+            border: 2px solid #00f;
+            height: 180px;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Create a new Poll</h1>
-    <h3>These informations cannot be edited later.</h3>
-    <div id="create-poll">
+    <!-- Header Section -->
+    <section id="header">
+        <header>
+            <!-- Brand Name -->
+            <h1><a href="/">Vote It!</a></h1>
+            
+            <!-- Navigation -->
+            <nav>
+                <ul>
+                    <li><a href="/new" class="current">Home</a></li>
+                    <li><a href="/mypolls">My Polls</a></li>
+                    <li><a href="/followpolls">Follow Polls</a></li>
+                </ul>
+            </nav>
+        </header>
+    </section>
+
+    <section id="create-box">
+        <h1>Create New Poll</h1>
         <form method="post">
             {% csrf_token %}
-            <div class="pages page1">
-                <label>
-                    Name of Poll:
-                    <input type="text" name="poll_name" required>
-                </label><br>
-                <label>
-                    Poll starts:
+            <label>Name of Poll: <br>
+                <input type="text" name="poll_name" required>
+            </label>
+            <section id="time-info">
+                <label>Poll Starts: <br>
                     <input type="datetime-local" name="poll_st" id="poll_st" required>
                 </label><br>
-                <label>
-                    Poll Ends:
+                <label>Poll Ends: <br>
                     <input type="datetime-local" name = "poll_end" id="poll_end" required>
-                </label><br>
-            </div>
-            <small>Check your inputs before you proceed!</small><br>
+                </label>
+            </section>
+            <label>Description: <br>
+                <textarea name="description" cols="30" rows="10"></textarea>
+            </label>
             <button>Create Poll</button>
         </form>
-    </div>
+    </section>
 
-    <script>
-
-        // Define Variables
-
-        const poll_st = document.querySelector("#poll_st")
-        const poll_end = document.querySelector("#poll_end")
-        const date = new Date()
-        const year = date.getFullYear()
-        const month = String(date.getMonth() + 1).padStart(2, "0")
-        const day = String(date.getDate()).padStart(2, "0")
-        const hour = String(date.getHours()).padStart(2, "0")
-        const minutes = String(date.getMinutes()).padStart(2, "0")
-        const sub_btn = document.querySelector("button")
-
-        poll_st.min = poll_end.min = `${year}-${month}-${day}T${hour}:${minutes}`
-        
-        sub_btn.addEventListener("click", function(e){
-            if(poll_st.value >= poll_end.value){
-                e.preventDefault()
-            }
-        })
-    </script>
+    <script src="{% static 'script.js' %}"></script>
 </body>
 </html>

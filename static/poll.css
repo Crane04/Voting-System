@@ -1,0 +1,46 @@
+#container{
+    margin-left: 100px;
+    margin-right: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+#container main{
+    width: 60%;
+}
+#container aside{
+    width: 30%;
+}
+button{
+    margin-top: 4px;
+    width: 150px;
+}
+hr{
+    background-color: #00f;
+    height: 1px;
+    outline: none;
+}
+
+#vote{
+    display: block;
+}
+#vote-container{
+    display: flex;
+    flex-direction: row;
+}
+#vote input{
+    display: none;
+}
+#vote label{
+    background-color: #00f;
+    color: #fff;
+    margin-right: 7px;
+    min-width: 20px;
+    text-align: center;
+    width: fit-content;
+    padding: 7px;
+    cursor: pointer;
+}
+
+#vote input:checked~label{
+    background-color: green;
+}

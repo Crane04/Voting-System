@@ -3,5 +3,6 @@ from django.urls import path
 
 urlpatterns = [
     path("", index, name = "index"),
-    path("poll/<str:pk>", poll, name = "poll")
+    path("poll/<str:pk>", poll, name = "poll"),
+    path("mypolls", mypolls, name = "mypolls")
 ]
