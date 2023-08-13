@@ -32,37 +32,22 @@
             <nav>
                 <ul>
                     <li><a href="/new">Home</a></li>
-                    <li><a href="/mypolls"  class="current">My Polls</a></li>
-                    <li><a href="/followpolls">Follow Polls</a></li>
+                    <li><a href="/mypolls">My Polls</a></li>
+                    <li><a href="/followpolls"  class="current">Follow Polls</a></li>
                 </ul>
             </nav>
         </header>
     </section>
 
     <section id="container">
-        <h1>My Polls</h1>
-        <section class="polls">
-            {% for poll in polls_with_voter_counts %}
+        <h1>Polls you follow</h1>
+        <section id="polls">
+            {% for followpoll in followpolls %}
             <section>
-                <a href="/poll/{{ poll.unique_id }}">
-                    <h1>{{ poll.title }}
-                        <br><span>{{ poll.num_voters }} voter(s)</span>
-                    </h1>
-                    
-                </a>
-            </section>
-            <hr>
-            {% endfor %}
-        </section>
-
-
-        <h1>My Special Polls</h1>
-        <section class="polls">
-            {% for special_poll in special_polls_with_voter_counts %}
-            <section>
-                <a href="/special-poll/{{ special_poll.unique_id }}">
-                    <h1>{{ special_poll.title }}
-                        <br><span>{{ special_poll.num_voters }} voter(s)</span>
+                <a href="/poll/{{ followpoll.poll.unique_id }}">
+                    <h1>{{ followpoll.poll.title }}
+                        <br><span>Poll created by <span style="text-transform: capitalize;">{{ followpoll.poll.admin }}</span></span><br>
+                        <span>30 other people are following this Poll</span>
                     </h1>
                     
                 </a>

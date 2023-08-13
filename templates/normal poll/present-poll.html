@@ -30,7 +30,7 @@
 
         <section id="container">
             <main>
-                <h1>Poll Created by {{ poll.admin }} - {{ poll.title }} </h1>
+                <h1>Poll Created by  <span style="text-transform: capitalize;">{{ poll.admin }}</span> - {{ poll.title }} </h1>
 
                 {% if poll.admin == request.user %}
                 <form method="post">
@@ -61,7 +61,10 @@
                 </h1>
                 <form id="vote" method="post">
                     {% csrf_token %}
-
+                    {% for message in messages %}
+                        <h3 style="color:red">{{ message}}</h3>
+                    {% endfor %}
+                    <br>
                     <section id="vote-container">
                         {% for contestant in contestants %}
                         <section>
@@ -82,7 +85,7 @@
             <aside>
                 <h1>Description</h1>
                 <article>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos esse eaque eveniet.
+                    {{ poll.description }}
                 </article>
 
                 <h1>Poll Starts</h1>

@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ poll.title }}</title>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <link rel="stylesheet" href="{% static 'poll.css' %}">
+        <style>
+            #approval-page{
+                position: fixed;
+                background-color: transparent;
+                height: 100vh;
+                width: 100vw;
+                display: none;
+                justify-content: center;
+            }
+            /* #approval-page #ap-container{
+                width: 100%;
+            } */
+            #approval-page #ap-container {
+                margin-top: 35px;
+                padding-top: 35px;
+                padding-bottom: 35px;
+                background-color: #ddd;
+                width: 90%;
+                display: flex;
+                height: max-content;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+            #approval-page #ap-container table{
+                width: 80%;
+                border: 1px solid #00f;
+                color: #00f;
+            }
+            th{
+                border: 1px solid #00f;
+                padding: 9px;
+            }
+            th form{
+                width: 20px;
+            }
+            th form button{
+                margin: 0 auto;
+                display: block;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    </head>
+    <body>
+        <!-- Header Section -->
+        <section id="header">
+            <header>
+                <!-- Brand Name -->
+                <h1><a href="/">Vote It!</a></h1>
+                
+                <!-- Navigation -->
+                <nav>
+                    <ul>
+                        <li><a href="/new" class="current">Home</a></li>
+                        <li><a href="/mypolls">My Polls</a></li>
+                        <li><a href="/followpolls">Follow Polls</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </section>
+    {% if poll.admin == request.user %}        
+        <section id="approval-page">
+            <section id="ap-container">
+
+                    <table>
+                        <tr>
+                            <th>Name of Requester</th>
+                            <th>Time Requested</th>
+                            <th>Confirm</th>
+                        </tr>
+                        {% for unapproved_voter in unapproved_voters %}
+                        <tr>
+                            <th>{{ unapproved_voter.name }}</th>
+                            <th>{{ unapproved_voter.time_requested }}</th>
+                            <th>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="approve" value="{{unapproved_voter.id}}">
+                                    <button name="confirm">Confirm</button>
+                                </form>
+                            </th>
+                        </tr>
+                        {% endfor %}
+    
+                    </table>
+
+               <button id="close">Close</button>
+            </section>
+        </section>
+        {% endif %}
+        <section id="container">
+            <main>
+                <h1>Poll Created by  <span style="text-transform: capitalize;">{{ poll.admin }}</span> - {{ poll.title }} </h1>
+
+                {% if poll.admin == request.user %}
+                <form method="post">
+                    {% csrf_token %}
+                    <label>
+                        Add Contestant: <br>
+                        <input type="text" name="contestant">
+                    </label>
+                    <section>
+                        <button name="add_contestant">Save</button>
+                        <button id="see_requesters">See Requesters</button>
+                    </section>
+                </form>
+
+                <hr>
+                {% endif %}
+
+                {% if start_voting_process %}
+                <div id="contestants-list" style="display:none ;">
+                    {% for contestant in contestants %}
+                        <div class="contestant">{{ contestant.name }}</div>
+                    {% endfor %}
+                </div>
+            
+                <div id="contestants-votes" style="display:none ;">
+                    {% for contestant in contestants %}
+                        <div class="votes">{{ contestant.votes }}</div>
+                    {% endfor %}
+                </div>
+                <h1>
+                    Cast your Vote
+                </h1>
+                {% for message in messages %}
+                    <h3 style="color:red">{{ message}}</h3>
+                {% endfor %}
+                
+                {% if unauthorized == False %}
+                <form id="vote" method="post">
+                    {% csrf_token %}
+
+                    <section id="vote-container">
+                        {% for contestant in contestants %}
+                        <section>
+                            <input type="radio" name="voting" id="{{contestant.id}}" value="{{contestant.id}}">
+                            <label for="{{contestant.id}}">
+                                {{ contestant.name }}
+                            </label>
+                        </section>
+                        {% endfor %}
+                    </section>
+                    <br>
+                    <button  name="vote">Vote</button>
+                </form>
+                <br>
+                
+                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                {% else %}
+                <h1 style="color: blue;">
+                    You are not allowed to view this Poll!
+                </h1>
+                {% endif %}
+
+                {% endif %}
+            </main>
+            <aside>
+                <h1>Description</h1>
+                <article>
+                    {{ poll.description }}
+                </article>
+                {% if unauthorized == True %}
+                <form method="post">
+                    {% csrf_token %}
+                    <button name = "requestvote">
+                        Request to Vote
+                    </button>
+                </form>
+                {% endif %}
+                <h1>Poll Starts</h1>
+                <span>{{poll.time_start}}</span>
+                <h1>Poll Ends</h1>
+                <span>{{ poll.time_end }}</span>
+            </aside>
+        </section>    
+        <script src="{% static 'chartjs.js' %}"></script>
+        <script>
+            const requesters = document.querySelector("#see_requesters")
+            const approval_page = document.querySelector("#approval-page")
+            const close_ = document.querySelector("#close")
+            requesters.addEventListener("click", function(e){
+                approval_page.style.display = "flex"
+                e.preventDefault()
+
+
+     
+            })
+            
+            close_.addEventListener("click", function(e){
+                approval_page.style.display = "none"
+
+     
+            })
+            
+        </script>
+    </body>
+</html>
