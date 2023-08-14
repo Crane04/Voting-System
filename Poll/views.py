@@ -13,17 +13,17 @@ def poll(request, pk):
     contestants = Option.objects.filter(poll = present_poll)
 
     current_datetime = time.time()
-    start_poll = datetime_to_seconds(present_poll.time_start)
-    end_poll = datetime_to_seconds(present_poll.time_end)
+    poll_starts = datetime_to_seconds(present_poll.time_start)
+    poll_ends = datetime_to_seconds(present_poll.time_end)
 
     user = User.objects.get(username=request.user.username)
 
 
     
     start_voting_process = None
-    if current_datetime >= start_poll and current_datetime <= end_poll:
+    if current_datetime >= poll_starts and current_datetime <= poll_ends:
         start_voting_process = True
-    elif current_datetime < start_poll and current_datetime > end_poll:
+    elif current_datetime < poll_starts and current_datetime > poll_ends:
         start_voting_process = False
 
     if request.method == "POST":

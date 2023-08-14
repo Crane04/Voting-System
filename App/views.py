@@ -85,11 +85,11 @@ def followpolls(request):
 
 
 
-def datetime_to_seconds(instance):
-    if instance is not None:
+def datetime_to_seconds(date_time):
+    if date_time is not None:
         # Calculate seconds since the Unix epoch (January 1, 1970)
-        epoch = datetime(1970, 1, 1, tzinfo=instance.tzinfo)
-        timedelta = instance - epoch
+        epoch = datetime(1970, 1, 1, tzinfo=date_time.tzinfo)
+        timedelta = date_time - epoch
         timestamp_seconds = int(timedelta.total_seconds()) - 3600
         return timestamp_seconds
     else:
