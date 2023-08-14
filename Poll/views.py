@@ -5,15 +5,21 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Sum, Count
+from App.views import datetime_to_seconds
+import time
 
 def poll(request, pk):
     present_poll = Poll.objects.get(unique_id = pk)
     contestants = Option.objects.filter(poll = present_poll)
-    current_datetime = timezone.now()
-    start_poll = present_poll.time_start
-    end_poll = present_poll.time_end
+
+    current_datetime = time.time()
+    start_poll = datetime_to_seconds(present_poll.time_start)
+    end_poll = datetime_to_seconds(present_poll.time_end)
+
     user = User.objects.get(username=request.user.username)
 
+
+    
     start_voting_process = None
     if current_datetime >= start_poll and current_datetime <= end_poll:
         start_voting_process = True
@@ -29,7 +35,7 @@ def poll(request, pk):
                 name = contestant
             )
             add_option.save()
-            return redirect("/special-poll/"+pk)
+            return redirect("/poll/"+pk)
 
 
         else:

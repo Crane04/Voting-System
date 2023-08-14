@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Sum, Count
+from datetime import datetime, timezone
+import pytz
 
 def index(request):
     if request.method == "POST":
@@ -79,3 +81,23 @@ def followpolls(request):
     }
 
     return render(request, "followpolls.html", context)
+
+
+
+
+def datetime_to_seconds(instance):
+    if instance is not None:
+        # Calculate seconds since the Unix epoch (January 1, 1970)
+        epoch = datetime(1970, 1, 1, tzinfo=instance.tzinfo)
+        timedelta = instance - epoch
+        timestamp_seconds = int(timedelta.total_seconds()) - 3600
+        return timestamp_seconds
+    else:
+        return None  # Handle case where datetime is None
+
+
+
+
+
+
+

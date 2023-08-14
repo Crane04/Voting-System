@@ -42,6 +42,19 @@ body{
     width: 100vw;
     flex-direction: column;
     height: 70vh;
+    min-height: 100vh;
+    height: max-content;
+    overflow-y:hidden;
+}
+
+textarea{
+    outline: none;
+    padding: 5px;
+    font-size: large;
+    border: 2px solid #00f;
+    height: 180px;
+    width: 100%;
+    resize: none;
 }
 
 form{

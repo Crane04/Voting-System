@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Sum, Count
+from App.views import datetime_to_seconds
+import time
 
 # Create your views here.
 def specialpoll(request, pk):
@@ -12,9 +14,9 @@ def specialpoll(request, pk):
     present_poll = SpecialPoll.objects.get(unique_id = pk)
 
     contestants = SpecialPollContestants.objects.filter(poll = present_poll)
-    current_datetime = timezone.now()
-    start_poll = present_poll.time_start
-    end_poll = present_poll.time_end
+    current_datetime = time.time()
+    start_poll = datetime_to_seconds(present_poll.time_start)
+    end_poll = datetime_to_seconds(present_poll.time_end)
     unauthorized = None
     unapproved_voters = SpecialPollVoters.objects.filter(allowed = False, special_poll = present_poll)
 
