@@ -18,5 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("vote.urls"))
+    path("", include("Poll.urls")),
+    path("", include("SpecialPoll.urls")),
+    path("", include("App.urls")),
+
 ]
