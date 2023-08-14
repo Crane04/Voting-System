@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote It</title>
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+</head>
+<body>
+    <h1>Sign Up - Vote It</h1>
+        <div class="container">
+                <img src="{% static 'image.png' %}">
+            <form method="post">
+                {% for message in messages %}
+                <h3> {{message}} </h3>
+                {% endfor %}
+                {% csrf_token %}
+                <label>Username: <input  id="username"  placeholder="Aa" type="text" name="username" required></label>
+                <label>Email: <input  id="email"  placeholder="abc@gmail.com" type="email" name="email" required></label>
+                <label>Password: <input  id="password1"  placeholder="***" type="password" name="password_signin1" required></label>
+                <label>Confirm Password: <input  id="password2"  placeholder="***" type="password" name="password_signin2" required></label>
+                <button>Sign In</button>
+
+                <p>Don't have an account?<br><a href="/login">Sign Up</a>.</p>
+            </form>
+        </div>
+</body>
+</html>
