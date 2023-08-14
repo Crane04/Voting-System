@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Sum, Count
-from App.views import datetime_to_seconds
+from App.views import datetime_to_seconds, sendmail
 import time
 
 # Create your views here.
@@ -40,7 +40,7 @@ def specialpoll(request, pk):
 
         # Add Contestant Request
         elif "add_contestant" in request.POST:
-            print(8)
+
             contestant = request.POST["contestant"]
             add_option = SpecialPollContestants.objects.create(
                 poll = present_poll,
@@ -53,8 +53,15 @@ def specialpoll(request, pk):
 
             unapproved = request.POST.get("approve")
             approve = SpecialPollVoters.objects.get(special_poll = present_poll, id = unapproved)
+            user_email = User.objects.get(username = approve.name).email
+            
             approve.allowed = True
             approve.save()
+
+            try:
+                sendmail(user_email, present_poll.title, pk)
+            except:
+                pass
             return redirect("/special-poll/" + pk)
 
         elif "requestvote" in request.POST:

@@ -25,6 +25,15 @@ SECRET_KEY = 'django-insecure-t*8$^6rh=&j@qepv+asrf6*r+nb&4)yu!md*lkw8li5xl!(-7*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# Email
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  # Port for the SMTP server (usually 587 for TLS)
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'encrane@gmail.com'  # Your email
+EMAIL_HOST_PASSWORD = 'your generated password'  # Your generated password
 
 ALLOWED_HOSTS = []
 
@@ -38,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'vote',
     "Poll",
     "App",
     "SpecialPoll"
@@ -127,3 +135,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

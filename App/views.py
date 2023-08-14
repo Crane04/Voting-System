@@ -7,9 +7,13 @@ from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Sum, Count
 from datetime import datetime, timezone
+from django.core.mail import send_mail
+from django.conf import Settings
 import pytz
 
 def index(request):
+
+
     if request.method == "POST":
         user = User.objects.get(username=request.user.username)
         title =  request.POST["poll_name"]
@@ -96,8 +100,18 @@ def datetime_to_seconds(date_time):
         return None  # Handle case where datetime is None
 
 
-
-
-
-
-
+def sendmail(receiver, poll, link):
+    subject = f" Poll Approval"
+    message = ''
+    from_email = 'encrane04@gmail.com'  # Sender's email
+    recipient_list = [receiver]  # List of recipient emails
+    html_message = f"""<div style="text-align:center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+    <h1 style="color:blue;"> You've been allowed to view and vote on this Poll {poll}</h1>
+    <h3>Click <a href="http://127.0.0.1:8000/special-poll/{link}"> here </a> to continue</h1>
+    <br><br><br><br>
+    
+    <p>&copy; Vote It!, 2023 </h1>
+    </div>
+    """
+    fail_silently = False
+    send_mail(subject, message, from_email, recipient_list, fail_silently, html_message=html_message)
