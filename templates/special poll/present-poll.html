@@ -102,12 +102,15 @@
                 <form id="vote" method="post">
                     {% csrf_token %}
 
-                    <section id="vote-container">
+                    <section id="vote-contain">
                         {% for contestant in contestants %}
-                        <section>
-                            <input type="radio" name="voting" id="{{contestant.id}}" value="{{contestant.id}}">
+                        <section >
+                            <input type="radio" name="vote" id="{{contestant.id}}" value="{{contestant.id}}">
                             <label for="{{contestant.id}}">
-                                {{ contestant.name }}
+                                <figure>
+                                    <img src="http://127.0.0.1:8000//media/{{ contestant.option_image }}" alt="">
+                                    <figcaption>{{ contestant.name }}</figcaption>
+                                </figure>
                             </label>
                         </section>
                         {% endfor %}

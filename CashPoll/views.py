@@ -9,8 +9,8 @@ from App.views import datetime_to_seconds
 import time
 
 def poll(request, pk):
-    present_poll = Poll.objects.get(unique_id = pk)
-    contestants = Option.objects.filter(poll = present_poll)
+    present_poll = CashPoll.objects.get(unique_id = pk)
+    contestants = CashPollOption.objects.filter(poll = present_poll)
 
     current_datetime = time.time()
     poll_starts = datetime_to_seconds(present_poll.time_start)
@@ -29,31 +29,26 @@ def poll(request, pk):
     if request.method == "POST":
         # Add Contestant Request
         if "add_contestant" in request.POST:
-            if request.FILES:
-                contestant = request.POST["contestant"]
-                image =  request.FILES["image"]
-                add_option = Option.objects.create(
-                    poll = present_poll,
-                    name = contestant,
-                    option_image = image
-                )
-                add_option.save()
-                return redirect("/poll/"+pk)
-            else:
-                messages.info(request, "You must insert an Image.")
-                return redirect("/poll/" + pk)
+            contestant = request.POST["contestant"]
+            add_option = CashPollOption.objects.create(
+                poll = present_poll,
+                name = contestant
+            )
+            add_option.save()
+            return redirect("/poll/"+pk)
+
 
         else:
 
             # Voting Process
-            if Voter.objects.filter(poll = present_poll, user = user).exists():
+            if CashPollVoter.objects.filter(poll = present_poll, user = user).exists():
                 messages.info(request, "Sorry, you've voted before!")
             else:
                 contestant_id = request.POST.get('vote')
                 
                 if contestant_id:
-                    contestant = Option.objects.get(id = contestant_id)
-                    voter = Voter.objects.create(poll = present_poll, user = user)
+                    contestant = CashPollOption.objects.get(id = contestant_id)
+                    voter = CashPollVoter.objects.create(poll = present_poll, user = user)
                     contestant.votes += 1
                     contestant.save()
                     voter.save()

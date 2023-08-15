@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from Poll.models import *
 from SpecialPoll.models import *
+from CashPoll.models import *
 import uuid
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -47,6 +48,18 @@ def index(request):
             create_special_poll.save()
             return redirect("/special-poll/" + str(unique_id))
 
+        elif who_can_vote == "paid":
+            create_paid_poll = CashPoll.objects.create(unique_id = unique_id,
+            title = title, 
+            time_start = time_start,
+            time_end = time_end,
+            admin = user,
+            description = description
+            )
+
+            create_paid_poll.save()
+
+            return redirect("/")
 
     return render(request,"index.html")
 

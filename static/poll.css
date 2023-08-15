@@ -23,10 +23,7 @@ hr{
 #vote{
     display: block;
 }
-#vote-container{
-    display: flex;
-    flex-direction: row;
-}
+
 #vote input{
     display: none;
 }
@@ -41,6 +38,35 @@ hr{
     cursor: pointer;
 }
 
+#vote-contain{
+    display: flex;
+    flex-direction: row;
+    
+}
+#vote-contain section, #vote-contain section label{
+    display: block;
+    color: #00f;
+}
+#vote-contain section label{
+    width: fit-content;
+    height: 200px;
+    background-color: #ddd;
+    padding: 10px;
+    margin-right: 18px;
+    border-radius: 10px;
+    border: 3px solid #00f;
+}
+figure{
+    padding: 0;
+    margin: 0;
+}
+
+figure img{
+    width: 150px;
+    height: 150px;
+    margin-bottom: 7px;
+}
 #vote input:checked~label{
-    background-color: green;
+    background-color: #00f;
+    color: #fff;
 }

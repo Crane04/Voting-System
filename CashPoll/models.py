@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Open Poll - Anybody can vote and see the Poll's Progress.
 
-class Poll(models.Model):
+class CashPoll(models.Model):
     unique_id = models.CharField(max_length=100)
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, default="")
@@ -17,20 +17,10 @@ class Poll(models.Model):
     def __str__(self):
         return str(self.title)
 
-class Option(models.Model):
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+class CashPollOption(models.Model):
+    poll = models.ForeignKey(CashPoll, on_delete=models.CASCADE, related_name="CashPollOptions")
     name = models.CharField(max_length=200)
-    option_image = models.ImageField(upload_to="option", default = "")
     votes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return str(self.name)
-
-
-# Keeps track of Users that Voted on Specific Polls. So they won't be able to vote twice.
-class Voter(models.Model):
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.poll)
