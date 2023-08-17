@@ -30,14 +30,18 @@
 
         <section id="container">
             <main>
-                <h1>Cash Poll Created by  <span style="text-transform: capitalize;">{{ poll.admin }}</span> - {{ poll.title }} </h1>
+                <h1>Poll Created by  <span style="text-transform: capitalize;">{{ poll.admin }}</span> - {{ poll.title }} </h1>
 
                 {% if poll.admin == request.user %}
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <label>
                         Add Contestant: <br>
-                        <input type="text" name="contestant">
+                        <input type="text" name="contestant" required>
+                    </label>
+                    <label>
+                        Contestant Image: <br>
+                        <input type="file" name="image" accept=".png, .jpg, .jpeg" required>
                     </label>
                     <button name="add_contestant">Save</button>
                 </form>
@@ -65,12 +69,15 @@
                         <h3 style="color:red">{{ message}}</h3>
                     {% endfor %}
                     <br>
-                    <section id="vote-container">
+                    <section id="vote-contain">
                         {% for contestant in contestants %}
-                        <section>
+                        <section >
                             <input type="radio" name="vote" id="{{contestant.id}}" value="{{contestant.id}}">
                             <label for="{{contestant.id}}">
-                                {{ contestant.name }}
+                                <figure>
+                                    <img src="http://127.0.0.1:8000//media/{{ contestant.option_image }}" alt="">
+                                    <figcaption>{{ contestant.name }}</figcaption>
+                                </figure>
                             </label>
                         </section>
                         {% endfor %}

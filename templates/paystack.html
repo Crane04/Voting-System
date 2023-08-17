@@ -1,0 +1,31 @@
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<form method="post">
+    {% csrf_token %}
+    <button onclick="payWithPaystack()">Pay</button>
+</form>
+
+<script>
+	function payWithPaystack() {
+		let currency = "NGN";
+		let plan = "";
+		let amount = "100000";
+		let obj = {
+			key: "{{ paystack_pub_key }}",
+			amount: 100000,
+			ref: ref,
+			callback: function (response) {
+				window.location.href = "{% url 'verify_payment' payment.ref %}";
+			},
+		};
+		if (Boolean(currency)) {
+			obj.currency = currency.toUpperCase();
+		}
+		if (Boolean(plan)) {
+			obj.plan - plan;
+		}
+
+		var handler = PaystackPop.setup(obj);
+		handler.openIframe();
+	}
+</script>

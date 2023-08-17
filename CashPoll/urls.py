@@ -1,6 +1,7 @@
-# from .views import *
-# from django.urls import path
+from .views import *
+from django.urls import path
 
-# urlpatterns = [
-#     path("poll/<str:pk>", poll, name = "poll")
-# ]
+urlpatterns = [
+    path("cashpoll/<str:pk>", cashpoll, name = "cashpoll"),
+    path("pay", pay, name = "pay"),
+]

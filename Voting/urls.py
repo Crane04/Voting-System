@@ -23,7 +23,8 @@ urlpatterns = [
     path("", include("Poll.urls")),
     path("", include("SpecialPoll.urls")),
     path("", include("App.urls")),
-    path("", include("Accounts.urls"))
+    path("", include("Accounts.urls")),
+    path("", include("CashPoll.urls"))
 ]
 
 

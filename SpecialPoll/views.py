@@ -40,14 +40,16 @@ def specialpoll(request, pk):
 
         # Add Contestant Request
         elif "add_contestant" in request.POST:
-
-            contestant = request.POST["contestant"]
-            add_option = SpecialPollContestants.objects.create(
-                poll = present_poll,
-                name = contestant
-            )
-            add_option.save()
-            return redirect("/special-poll/"+pk)
+            if request.FILES:
+                contestant = request.POST["contestant"]
+                image =  request.FILES["image"]
+                add_option = SpecialPollContestants.objects.create(
+                    poll = present_poll,
+                    name = contestant,
+                    option_image = image
+                )
+                add_option.save()
+                return redirect("/special-poll/"+pk)
 
         elif "confirm" in request.POST:
 

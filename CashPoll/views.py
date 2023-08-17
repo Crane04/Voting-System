@@ -7,8 +7,9 @@ from django.contrib import messages
 from django.db.models import Sum, Count
 from App.views import datetime_to_seconds
 import time
+from django.conf import settings
 
-def poll(request, pk):
+def cashpoll(request, pk):
     present_poll = CashPoll.objects.get(unique_id = pk)
     contestants = CashPollOption.objects.filter(poll = present_poll)
 
@@ -35,24 +36,18 @@ def poll(request, pk):
                 name = contestant
             )
             add_option.save()
-            return redirect("/poll/"+pk)
+            return redirect("/cashpoll/"+pk)
 
 
         else:
 
-            # Voting Process
-            if CashPollVoter.objects.filter(poll = present_poll, user = user).exists():
-                messages.info(request, "Sorry, you've voted before!")
-            else:
-                contestant_id = request.POST.get('vote')
-                
-                if contestant_id:
-                    contestant = CashPollOption.objects.get(id = contestant_id)
-                    voter = CashPollVoter.objects.create(poll = present_poll, user = user)
-                    contestant.votes += 1
-                    contestant.save()
-                    voter.save()
-            return redirect("/poll/"+pk)
+            contestant_id = request.POST.get('vote')
+            
+            if contestant_id:
+                contestant = CashPollOption.objects.get(id = contestant_id)
+                contestant.votes += 1
+                contestant.save()
+        return redirect("/cashpoll/"+pk)
     context = {
             "poll": present_poll,
             "contestants":contestants,
@@ -60,4 +55,28 @@ def poll(request, pk):
             # "messages": messages
         }
         
-    return render(request, "normal poll/present-poll.html", context)
+    return render(request, "cash poll/present-poll.html", context)
+
+def pay(request):
+    if request.method == "POST":
+
+
+        pk = settings.PAYSTACK_PUBLIC_KEY
+
+
+        context = {
+            'field_values': request.POST,
+            'paystack_pub_key': pk,
+            'amount_value': 100000,
+        }
+
+    return render("paystack.html")
+
+def verify_payment(request):
+
+    if True:
+        print("okay")
+        return redirect("/")
+
+    else:
+        print("bad")

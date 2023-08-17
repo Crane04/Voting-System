@@ -20,7 +20,7 @@ class Poll(models.Model):
 class Option(models.Model):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    option_image = models.ImageField(upload_to="option", default = "")
+    option_image = models.ImageField(upload_to="poll/option", default = "")
     votes = models.PositiveIntegerField(default=0)
 
     def __str__(self):

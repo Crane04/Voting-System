@@ -13,6 +13,7 @@ class CashPoll(models.Model):
     time_start = models.DateTimeField()
     time_end = models.DateTimeField()
     description = models.TextField()
+    fee = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return str(self.title)

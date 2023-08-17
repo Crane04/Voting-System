@@ -54,10 +54,32 @@
                 <label><input type="radio" name="who_can_vote" value="paid">Vote with Money</label>
             </section>
 
+            <style>
+
+            </style>
+            <section id="fee">
+                <label>Fee: 
+                    <input type="number" name="" id="" min="10">
+                </label>
+            </section>
             <button>Create Poll</button>
         </form>
     </section>
 
     <script src="{% static 'script.js' %}"></script>
+    <script>
+        const who_can_vote = document.querySelectorAll("input[type='radio'][name = 'who_can_vote']")
+        const fee = document.querySelector("#fee")
+        for(let i = 0; i < who_can_vote.length; i++){
+            who_can_vote[i].addEventListener("change", function(){
+            if (who_can_vote[i].value === "paid"){
+                fee.style.display = "flex"
+                console.log(i)
+            }else{
+                fee.style.display = "none"
+            }
+        })
+        }
+    </script>
 </body>
 </html>

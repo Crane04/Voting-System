@@ -32,6 +32,7 @@ class SpecialPollContestants(models.Model):
     poll = models.ForeignKey(SpecialPoll, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     votes = models.PositiveIntegerField(default=0)
+    option_image = models.ImageField(upload_to="special/option", default = "")
 
     def __str__(self):
         return str(self.name)
