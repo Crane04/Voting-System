@@ -126,8 +126,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-PAYSTACK_SECRET_KEY = "sk_test_50e163f74225a5deae2544df9c5e43a5f556b9e5"
-PAYSTACK_PUBLIC_KEY = "pk_test_85b5e55d81b8c060bd889f565bf2baa3dc90dca9"
+PAYSTACK_SECRET_KEY = ""
+PAYSTACK_PUBLIC_KEY = ""
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
